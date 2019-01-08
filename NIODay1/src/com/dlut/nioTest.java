@@ -2,13 +2,21 @@ package com.dlut;
 
 import org.junit.Test;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.sql.SQLOutput;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2019/1/5.
@@ -31,7 +39,7 @@ import java.nio.file.StandardOpenOption;
 public class nioTest
 {
     @Test
-    public void test1()
+    public void testBuffer()
     {
         String str = "abcde";
 
@@ -99,7 +107,7 @@ public class nioTest
     }
 
     @Test
-    public void test2()
+    public void testDirectBuffer()
     {
         ByteBuffer buffer = ByteBuffer.allocateDirect(1024);
 
@@ -118,8 +126,14 @@ public class nioTest
      *
      * 测试channel  第一种方式创建通道
      */
+
+
+    /**
+     * 一:java支持通道的类提供了getChannel方法
+     * @throws Exception
+     */
     @Test
-    public void test3() throws Exception
+    public void testChannel_one() throws Exception
     {
         FileInputStream fis = new FileInputStream("Nio.png");
         FileOutputStream fos = new FileOutputStream("Nio1.png");
@@ -148,10 +162,11 @@ public class nioTest
     }
 
     /**
-     * 第二种方式创建通道
+     * 二:jdk1.7后,FileChannel提供了静态方法open
+     * @throws Exception
      */
     @Test
-    public void test4() throws Exception
+    public void testChannel_two_notRedirect() throws Exception
     {
         FileChannel fisChannel = FileChannel.open(Paths.get("Nio.png"), StandardOpenOption.READ);
         FileChannel fosChannel = FileChannel.open(Paths.get("Nio1.png"), StandardOpenOption.WRITE,StandardOpenOption.CREATE);
@@ -178,11 +193,12 @@ public class nioTest
      * 直接缓存区只有Bytebuffer支持
      */
     @Test
-    public void test5() throws Exception
+    public void testChannel_two_redirect() throws Exception
     {
         FileChannel fisChannel = FileChannel.open(Paths.get("Nio.png"), StandardOpenOption.READ);
         FileChannel fosChannel = FileChannel.open(Paths.get("Nio2.png"), StandardOpenOption.WRITE , StandardOpenOption.READ, StandardOpenOption.CREATE);
 
+        //????????????/为什么内存映射不用allocateRedirect
         //内存映射文件
         MappedByteBuffer fisMapByteBuffer = fisChannel.map(FileChannel.MapMode.READ_ONLY, 0, fisChannel.size());
         //这里用到的是读写模式,所以上面文件必须要有这两个权限
@@ -197,8 +213,12 @@ public class nioTest
         fisChannel.close();
     }
 
+    /**
+     * 通道之间的数据传输
+     * @throws Exception
+     */
     @Test
-    public void test6() throws Exception
+    public void testChannelToChannel() throws Exception
     {
         FileChannel fisChannel = FileChannel.open(Paths.get("Nio.png"), StandardOpenOption.READ);
         FileChannel fosChannel = FileChannel.open(Paths.get("Nio4.png"), StandardOpenOption.WRITE , StandardOpenOption.READ, StandardOpenOption.CREATE);
@@ -209,6 +229,102 @@ public class nioTest
 
         fisChannel.close();
         fosChannel.close();
+    }
+
+    /**
+     * 分散与聚集
+     * 分散读取:
+     * 聚集写入:
+     * 多个buffer
+     * ??????????有毛的用
+     */
+    public void testBuffersChannel() throws IOException
+    {
+        RandomAccessFile raf1 = new RandomAccessFile("1.txt","rw");
+
+        //1.获取通道
+        FileChannel channel1 = raf1.getChannel();
+
+        //2.分配指定大小的缓存区
+        ByteBuffer buf1 = ByteBuffer.allocate(100);
+        ByteBuffer buf2 = ByteBuffer.allocate(100);
+
+        //3.分散读取
+        ByteBuffer[] bufs = {buf1 , buf2};
+        channel1.read(bufs);
+
+        for(ByteBuffer byteBuffer : bufs)
+        {
+            byteBuffer.flip();
+        }
+
+        //System.out.println();
+
+        RandomAccessFile raf2 = new RandomAccessFile("2.txt","rw");
+        FileChannel channel2 = raf2.getChannel();
+
+        channel2.write(bufs);
+    }
+
+    /**
+     * 字符集Charset
+     * 编码:字符串转化为字节数组
+     * 解码:字节数组转化为字符串
+     */
+    @Test
+    public void testCharsetShow()
+    {
+        /**
+         * Map的数据结构不是很清楚
+         */
+        Map<String,Charset> map = Charset.availableCharsets();
+        Set<Map.Entry<String, Charset>> set = map.entrySet();
+
+        for(Map.Entry<String,Charset> entry : set)
+        {
+            System.out.println(entry.getKey() + "=" + entry.getValue());
+        }
+    }
+
+    @Test
+    public void testCharset() throws CharacterCodingException
+    {
+        Charset cs1 = Charset.forName("GBK");
+
+        //获取编码器
+        CharsetEncoder ce = cs1.newEncoder();
+
+        //获取解码器
+        CharsetDecoder cd = cs1.newDecoder();
+
+        CharBuffer cBuf = CharBuffer.allocate(1024);
+        cBuf.put("大工威武!!!");
+        cBuf.flip();
+
+        //编码
+        ByteBuffer bBuf = ce.encode(cBuf);
+
+        //查看字节
+        for(int i = 0 ; i < 11 ; i++)
+        {
+            System.out.println(bBuf.get());
+        }
+
+        //解码
+        bBuf.flip();
+        CharBuffer cBuf1 = cd.decode(bBuf);
+        System.out.println(cBuf1.length());
+
+        cBuf1.rewind();
+        int length = cBuf1.length();
+        for(int i = 0 ; i < length ; i++)
+        {
+            System.out.println(cBuf1.get());
+        }
+
+        System.out.println(cBuf1.length());
+
+        //System.out.println(cBuf1.toString());
     }
 
 }
