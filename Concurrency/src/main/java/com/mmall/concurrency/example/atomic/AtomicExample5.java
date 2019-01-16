@@ -15,6 +15,9 @@ public class AtomicExample5 {
             AtomicIntegerFieldUpdater.newUpdater(AtomicExample5.class, "count");
 
     @Getter
+    /**
+     * 必须使用volatitle修饰 非static字段的 才能用(因为static修饰的字段归类所有)
+     */
     public volatile int count = 100;
 
     public static void main(String[] args) {

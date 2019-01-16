@@ -29,7 +29,8 @@ public class AtomicExample6 {
             executorService.execute(() -> {
                 try {
                     semaphore.acquire();
-                    test();
+                    //testNotSafe();
+                    testSafe();
                     semaphore.release();
                 } catch (Exception e) {
                     log.error("exception", e);
@@ -42,7 +43,18 @@ public class AtomicExample6 {
         log.info("isHappened:{}", isHappened.get());
     }
 
-    private static void test() {
+    private static void testNotSafe() {
+        if(isHappened.get() == false)
+        {
+            isHappened.set(true);
+        }
+        if(isHappened.get() == true)
+        {
+            log.info("execute");
+        }
+    }
+
+    private static void testSafe(){
         if (isHappened.compareAndSet(false, true)) {
             log.info("execute");
         }

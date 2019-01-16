@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * 课程里用来标记【线程安全】的类或者写法
+ * 有空看一下ElementType和RetentionPolicy类
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)

@@ -33,9 +33,11 @@ public class ConcurrencyTest {
                 } catch (Exception e) {
                     log.error("exception", e);
                 }
+                //调用此方法,则计数减一
                 countDownLatch.countDown();
             });
         }
+        //调用此方法会一直阻塞当前线程直到计数器的值为0
         countDownLatch.await();
         executorService.shutdown();
         log.info("count:{}", count);

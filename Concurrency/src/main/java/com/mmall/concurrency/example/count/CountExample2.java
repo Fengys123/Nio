@@ -43,6 +43,7 @@ public class CountExample2 {
     }
 
     private static void add() {
+        //?????要看一下cas的实现
         count.incrementAndGet();
         // count.getAndIncrement();
     }
