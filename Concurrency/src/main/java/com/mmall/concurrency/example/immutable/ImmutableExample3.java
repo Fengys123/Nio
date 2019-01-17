@@ -12,6 +12,7 @@ public class ImmutableExample3 {
 
     /**
      * 该测试方法是实现参数过多怎么办    后面的s4当做了数组处理
+     * 该测试方法与此案例无关
      * @param s1
      * @param s2
      * @param s3
@@ -41,6 +42,12 @@ public class ImmutableExample3 {
 
 
     public static void main(String[] args) {
+        try{
+            list.add(1);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         System.out.println(map2.get(3));
         test("a","b","c","d","e","f");
     }
