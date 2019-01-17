@@ -8,6 +8,17 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 
+/**
+ * volatitle使用场景要点
+ * 1.对变量的写操作不依赖于当前值
+ * 2.该变量没有包含在具有其他变量的不变式中(下界总是小于或等于上界)
+ *
+ * 使用场景:
+ * 1.特别适合状态标识量
+ * 2.double check(现在还没讲)
+ * https://www.ibm.com/developerworks/cn/java/j-jtp06197.html
+ * 讲的有点详细(之后再细细去看)
+ */
 @Slf4j
 @NotThreadSafe
 public class CountExample4 {

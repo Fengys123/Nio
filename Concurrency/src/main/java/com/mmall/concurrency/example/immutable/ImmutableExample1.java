@@ -12,6 +12,9 @@ public class ImmutableExample1 {
 
     private final static Integer a = 1;
     private final static String b = "2";
+    /**
+     * 调用了Maps?????????????????? 回头查一下
+     */
     private final static Map<Integer, Integer> map = Maps.newHashMap();
 
     static {

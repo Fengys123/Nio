@@ -19,16 +19,32 @@ public class SingletonExample7 {
         return Singleton.INSTANCE.getInstance();
     }
 
+    /**
+     * a
+     */
     private enum Singleton {
+        /**
+         *
+         */
         INSTANCE;
 
+        /**
+         *
+         */
         private SingletonExample7 singleton;
 
-        // JVM保证这个方法绝对只调用一次
+        /**
+          * JVM保证这个方法绝对只调用一次
+          * @return
+          */
         Singleton() {
             singleton = new SingletonExample7();
         }
 
+        /**
+         *
+         * @return
+         */
         public SingletonExample7 getInstance() {
             return singleton;
         }

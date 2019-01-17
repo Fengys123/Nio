@@ -17,6 +17,7 @@ public class ImmutableExample2 {
         map.put(1, 2);
         map.put(3, 4);
         map.put(5, 6);
+        //这样操作之后 map.put()会抛出异常
         map = Collections.unmodifiableMap(map);
     }
 
