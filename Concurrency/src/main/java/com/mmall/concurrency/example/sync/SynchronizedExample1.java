@@ -17,7 +17,10 @@ public class SynchronizedExample1 {
         }
     }
 
-    // 修饰一个方法
+    /**
+     * 修饰一个方法
+     * 当子类继承了父类,但是synchronized是不会被继承的 synchronized不属于方法声明的一部分
+     */
     public synchronized void test2(int j) {
         for (int i = 0; i < 10; i++) {
             log.info("test2 {} - {}", j, i);
