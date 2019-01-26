@@ -10,7 +10,7 @@ import java.util.List;
  *
  * You may assume nums1 and nums2 cannot be both empty.
  *
- * hard!!!
+ * hard!!!46ms
  */
 public class MedianOfTwoSortedArrays
 {
