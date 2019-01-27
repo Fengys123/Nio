@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="commons-cli-1.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/LeetCode/lib/commons-cli-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/LeetCode/lib/commons-io-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/LeetCode/lib/rabbitmq-client.jar!/" />
+      <root url="jar://$PROJECT_DIR$/LeetCode/lib/junit.jar!/" />
+      <root url="jar://$PROJECT_DIR$/LeetCode/lib/rabbitmq-client-tests.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
