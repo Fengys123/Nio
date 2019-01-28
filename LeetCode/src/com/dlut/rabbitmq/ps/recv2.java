@@ -1,33 +1,27 @@
-package com.dlut.rabbitmq.work.workfair;
+package com.dlut.rabbitmq.ps;
 
 import com.dlut.rabbitmq.util.ConnectionUtil;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
 
-/**
- * 消费者消费消息
- */
-public class recv1
+public class recv2
 {
-    final static String queuename = "test_simple_queue";
+    public static final String QUEUE_BAME = "test_queue_sms";
+    private static final String EXCHANGE_NAME = "test_exchange_fanout";
 
-    public static void main(String[] args) throws IOException, InterruptedException
+    public static void main(String[] args) throws IOException
     {
-        newApi();
-        return;
-    }
-
-    private static void newApi() throws IOException
-    {
-        //获取链接
         Connection connection = ConnectionUtil.getConnection();
 
         //创建频道
         Channel channel = connection.createChannel();
 
         //队列声明(保险写上这句话??????????????)
-        channel.queueDeclare(queuename,false,false,false,null);
+        channel.queueDeclare(QUEUE_BAME,false,false,false,null);
+
+        //绑定队列到交换机
+        channel.queueBind(QUEUE_BAME,EXCHANGE_NAME,"");
 
         channel.basicQos(1);
 
@@ -58,6 +52,6 @@ public class recv1
 
         boolean autoAck = false;
         //监听这个队列(这种写法类似于android的addlistener的方法)
-        channel.basicConsume(queuename,autoAck,defaultConsumer);
+        channel.basicConsume(QUEUE_BAME,autoAck,defaultConsumer);
     }
 }
