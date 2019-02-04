@@ -17,6 +17,9 @@ public class recv2
         //创建频道
         Channel channel = connection.createChannel();
 
+        //声明交换机???
+        channel.exchangeDeclare(EXCHANGE_NAME,"direct");
+
         //队列声明(保险写上这句话??????????????)
         channel.queueDeclare(QUEUE_BAME,false,false,false,null);
 

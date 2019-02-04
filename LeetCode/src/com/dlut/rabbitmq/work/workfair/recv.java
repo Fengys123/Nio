@@ -26,7 +26,7 @@ public class recv
         //创建频道
         Channel channel = connection.createChannel();
 
-        //队列声明(保险写上这句话??????????????)
+        //队列声明 因为如果没有这句话 queue可能为空 会发生空指针异常
         channel.queueDeclare(queuename,false,false,false,null);
 
         channel.basicQos(1);

@@ -24,6 +24,7 @@ public class sender
 
         String routingkey = "info";
 
+        //选择这种redirect模式,则routingkey不能为空
         channel.basicPublish(EXCHANGE_NAME,routingkey,null,msg.getBytes());
 
         System.out.println("[sned] " + msg);
