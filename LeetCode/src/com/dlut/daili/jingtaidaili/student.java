@@ -1,4 +1,4 @@
-package com.dlut.daili.dongtaidaili;
+package com.dlut.daili.jingtaidaili;
 
 public class student implements person
 {

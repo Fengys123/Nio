@@ -1,4 +1,4 @@
-package com.dlut.daili.dongtaidaili;
+package com.dlut.daili.jingtaidaili;
 
 /**
  * 静态代理
