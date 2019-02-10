@@ -1,4 +1,4 @@
-package com.dlut.daili.shouxiedongtaidaili;
+package com.dlut.daili.shouxiedongtaidaili.diceng;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -17,7 +17,7 @@ public class SelfClassLoader extends ClassLoader
     }
 
     @Override
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
+    public Class<?> findClass(String name) throws ClassNotFoundException {
         String className = SelfClassLoader.class.getPackage().getName() + "." + name;
         if (null != classPathFile) {
             File classFile = new File(classPathFile, name + ".class");

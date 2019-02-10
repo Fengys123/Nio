@@ -13,4 +13,11 @@ package com.dlut.daili.shouxiedongtaidaili;
  */
 public class main
 {
+    public static void main(String[] args) {
+        SelfJDKProxy proxy = new SelfJDKProxy(new SelfJDKProxyTarget());
+        SelfProxyInterface proxyInterface = (SelfProxyInterface) proxy.instanceProxy();
+        System.out.println(proxyInterface);
+        proxyInterface.targetMethod();
+    }
+
 }
