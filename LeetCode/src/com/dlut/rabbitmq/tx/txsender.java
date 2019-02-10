@@ -8,6 +8,7 @@ import java.io.IOException;
 
 /**
  * 这种事务模式不建议使用
+ * 降低了吞吐量
  */
 public class txsender
 {
