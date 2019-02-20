@@ -6,6 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
+/**
+ * final修饰的类引用的值可以改变,但指向的位置不可以改变
+ * 这样的话 , hashmap存在线程安全问题
+ */
 @Slf4j
 @NotThreadSafe
 public class ImmutableExample1 {
