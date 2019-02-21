@@ -2,6 +2,7 @@ package com.mmall.concurrency.example.singleton;
 
 import com.mmall.concurrency.annoations.ThreadSafe;
 
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -10,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
  * 单例实例在第一次使用时进行创建
  */
 @ThreadSafe
-public class SingletonExample5 {
+public class SingletonExample5 implements Serializable{
 
     // 私有构造函数
     private SingletonExample5() {
@@ -37,7 +38,7 @@ public class SingletonExample5 {
         return instance;
     }
 
-    public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException
+    public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException, ClassNotFoundException
     {
         //private constructor not safe
         SingletonExample5 singleton1 = SingletonExample5.getInstance();
@@ -52,6 +53,18 @@ public class SingletonExample5 {
         //return false
         //所以私有构造函数并不安全,可以通过反射进行对构造函数的访问
         System.out.println(singleton1 == singletonReflect);
+
+        SingletonExample5 s = SingletonExample5.getInstance();
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("SerSingleton.obj"));
+        oos.writeObject(s);
+        oos.flush();
+        oos.close();
+        FileInputStream fis = new FileInputStream("SerSingleton.obj");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        SingletonExample5 s1 = (SingletonExample5)ois.readObject();
+        ois.close();
+        System.out.println(s+"\n"+s1);
+        System.out.println("序列化前后两个是否同一个："+(s==s1));
 
     }
 }
