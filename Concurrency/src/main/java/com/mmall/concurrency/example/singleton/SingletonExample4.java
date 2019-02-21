@@ -24,6 +24,13 @@ public class SingletonExample4 {
     // 3、instance = memory 设置instance指向刚分配的内存
     // 2、ctorInstance() 初始化对象
 
+    /**
+     * 不加volatile关键词的分析运行:
+     * 假设有线程A B
+     * A线程执行到A-3(instance = memory 设置instance指向刚分配的内存)这一步,还未进行初始化对象(但此时的instance不为null)
+     * 与此同时B线程执行到了B这一步,由于instance不能null,导致直接返回instance,可能导致程序崩溃
+     */
+
     // 单例对象
     private static SingletonExample4 instance = null;
 
