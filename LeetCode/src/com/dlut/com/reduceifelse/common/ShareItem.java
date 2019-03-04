@@ -1,8 +1,8 @@
-package com.dlut.com.reduceifelse.lz1;
+package com.dlut.com.reduceifelse.common;
 
 public class ShareItem
 {
-    int type;
+    public int type;
     String title;
     String content;
     String imagePath;

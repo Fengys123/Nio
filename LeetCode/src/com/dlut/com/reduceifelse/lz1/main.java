@@ -1,5 +1,9 @@
 package com.dlut.com.reduceifelse.lz1;
 
+import com.dlut.com.reduceifelse.common.ShareItem;
+import com.dlut.com.reduceifelse.common.ShareListener;
+import com.dlut.com.reduceifelse.common.TypeConstant;
+
 public class main
 {
     /**
@@ -9,7 +13,7 @@ public class main
      * 2.ÒµÎñÅÐ¶Ï
      * 3.×´Ì¬ÅÐ¶Ï
      */
-    public void share(ShareItem item,ShareListener listener)
+    public void share(ShareItem item, ShareListener listener)
     {
         if(item != null)
         {

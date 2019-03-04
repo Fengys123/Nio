@@ -1,4 +1,4 @@
-package com.dlut.com.reduceifelse.lz1;
+package com.dlut.com.reduceifelse.common;
 
 public interface ShareListener
 {
